@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Galería | ArtBlog Creations
+{% endblock %}
+
+{% block content %}
+  <section>
+    <h1>Galería de arte</h1>
+
+    {% if user.is_authenticated %}
+      <a href="{% url 'crear_publicacion' %}">Crear publicación</a>
+    {% endif %}
+
+    {% if publicaciones %}
+      <div>
+        {% for publicacion in publicaciones %}
+          <article>
+            {% with imagen=publicacion.imagenes.first %}
+              {% if imagen %}
+                <img src="{{ imagen.imagen.url }}" alt="{{ publicacion.titulo }}" width="300">
+              {% endif %}
+            {% endwith %}
+
+            <h2>{{ publicacion.titulo }}</h2>
+            <p>{{ publicacion.descripcion|truncatewords:20 }}</p>
+            <p>{{ publicacion.get_tipo_display }}</p>
+            <p>Por {{ publicacion.autor.username }}</p>
+            <a href="{% url 'detalle_publicacion' publicacion.pk %}">Ver publicación</a>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>Todavía no existen publicaciones.</p>
+    {% endif %}
+  </section>
+{% endblock %}

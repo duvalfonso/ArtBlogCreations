@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Nueva publicación | ArtBlog Creations
+{% endblock%}
+
+{% block content %}
+  <section>
+    <h1>Crear publicación</h1>
+
+    <form 
+      method="post"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <div>
+        {{ form.titulo.label_tag }}
+        {{ form.titulo }}
+        {{ form.titulo.errors }}
+      </div>
+      
+      <div>
+        {{ form.descripcion.label_tag }}
+        {{ form.descripcion }}
+        {{ form.descripcion.errors }}
+      </div>
+      
+      <div>
+        {{ form.tipo.label_tag }}
+        {{ form.tipo }}
+        {{ form.tipo.errors }}
+      </div>
+      
+      <div>
+        <label for="id_imagen">Imágenes</label>
+        <input
+          type="file"
+          name="imagen"
+          id="id_imagen"
+          accept="image/jpeg,image/png,image/webp"
+          multiple
+          required
+        >
+        <p>Puedes seleccionar una o varias imágenes.</p>
+      </div>
+
+      <button type="submit">Publicar</button>
+      <a href="{% url 'lista_publicaciones' %}">Cancelar</a>
+    </form>
+  </section>
+{% endblock %}

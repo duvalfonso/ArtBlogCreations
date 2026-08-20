@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Eliminar publicación | ArtBlog Creations
+{% endblock %}
+
+{% block content %}
+  <section>
+    <h1>Eliminar publicación</h1>
+    <p>¿Estás seguro de que deseas eliminar la publicación <strong>{{ object.titulo }}</strong>?</p>
+    <p>Esta acción no se puede revertir.</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit">Si, eliminar</button>
+      <a href="{% url 'detalle_publicacion' object.pk %}">Cancelar</a>
+    </form>
+  </section>
+{% endblock %}

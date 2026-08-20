@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ publicacion.titulo }} | ArtBlog Creations
+{% endblock %}
+
+{% block content %}
+  <section class="publicacion-detalle">
+    <header class="publicacion-header">
+      <h1>{{ publicacion.titulo }}</h1>
+      <p>Por: <strong>{{ publicacion.autor.username }}</strong></p>
+      <p>{{ publicacion.get_tipo_display }}</p>
+      <p>Publicado el: {{ publicacion.fecha_publicacion|date:"d/m/Y H:i" }}</p>
+    </header>
+    
+    <section class="publicacion-descripcion">
+      <h2>Descripción</h2>
+      <p>{{ publicacion.descripcion }}</p>
+    </section>
+
+    <section class="publicacion-imagenes">
+      <h2>Galería</h2>
+      <div class="galeria">
+        {% for imagen in publicacion.imagenes.all %}
+          <figure>
+            <img
+              src="{{ imagen.imagen.url }}"
+              alt="{{ publicacion.titulo }}"
+            >
+          </figure>
+        {% empty %}
+          <p>Esta publicación no tiene imágenes.</p>
+        {% endfor %}
+      </div>
+    </section>
+
+    {% if user == publicacion.autor %}
+      <section class="publicacion-acciones">
+        <a href="{% url 'editar_publicacion' publicacion.pk %}">Editar</a>
+        <a href="{% url 'eliminar_publicacion' publicacion.pk %}">Eliminar</a>
+      </section>
+    {% endif %}
+
+    <p>
+      <a href="{% url 'lista_publicaciones' %}">Volver a la galería</a>
+    </p>
+  </section>
+{% endblock %}

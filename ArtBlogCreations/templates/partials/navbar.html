@@ -1,0 +1,28 @@
+<header>
+  <nav>
+    <div>
+      <a href="{% url 'inicio' %}">ArtBlog Creations</a>
+    </div>
+    <div>
+      <a href="{% url 'inicio' %}">Inicio</a>
+
+      {% if user.is_authenticated %}
+        <a href="{% url 'lista_publicaciones' %}">Galería</a>
+        <a href="{% url 'crear_publicacion' %}">Nueva publicación</a>
+        <span>Hola, {{ user.username }}</span>
+
+        <form 
+          method="post"
+          action="{% url 'logout' %}"
+          >
+            {% csrf_token %}
+            <button type="submit">Cerrar sesión</button>
+        </form>
+
+      {% else %}
+        <a href="{% url 'login' %}">Iniciar sesión</a>
+        <a href="{% url 'registro' %}">Registrarse</a>
+      {% endif %}
+    </div>
+  </nav>
+</header>

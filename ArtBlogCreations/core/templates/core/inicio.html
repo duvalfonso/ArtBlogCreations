@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Inicio | ArtBlog Creations
+{% endblock %}
+
+{% block content %}
+  <section>
+    <h1>ArtBlog Creations</h1>
+    <p>Un espacio para compartir arte, creatividad e inspiración.</p>
+    {% if user.is_authenticated %}
+      <p>Bienvenido, {{ user.username }}.</p>
+    {% else %}
+      <p>Inicia sesión o regístrate para comenzar a publicar tus obras.</p>
+    {% endif %}
+  </section>
+{% endblock %}
