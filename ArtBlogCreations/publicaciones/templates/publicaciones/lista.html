@@ -5,33 +5,102 @@
 {% endblock %}
 
 {% block content %}
-  <section>
-    <h1>Galería de arte</h1>
+<div class="container py-5">
+  
+  <div class="row align-items-end mb-5 pb-3 border-bottom g-3">
+    <div class="col-lg-7">
+      <span class="badge bg-dark text-white rounded-pill px-3 py-2 fw-semibold mb-2">
+        <i class="bi bi-grid-fill me-1 text-warning"></i> Exploración
+      </span>
+      <h1 class="display-5 fw-bold text-dark mb-1">Galería de arte</h1>
+      <p class="lead text-muted mb-0">Descubre y explora las obras creadas por nuestra comunidad artística.</p>
+    </div>
+    
+    <div class="col-lg-5">
+      <form method="get" action="." class="input-group shadow-sm rounded-3">
+        <span class="input-group-text bg-white border-end-0 text-muted ps-3">
+          <i class="bi bi-search"></i>
+        </span>
+        <input type="text" name="q" class="form-control bg-white border-start-0 py-2" placeholder="Buscar por título o artista..." value="{{ request.GET.q|default:'' }}">
+        <button class="btn btn-dark px-4 fw-semibold" type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
 
-    {% if user.is_authenticated %}
-      <a href="{% url 'crear_publicacion' %}">Crear publicación</a>
-    {% endif %}
-
-    {% if publicaciones %}
-      <div>
-        {% for publicacion in publicaciones %}
-          <article>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+    {% for publicacion in publicaciones %}
+      <div class="col">
+        <article class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative">
+          
+          <div class="ratio ratio-4x3 bg-light overflow-hidden">
             {% with imagen=publicacion.imagenes.first %}
               {% if imagen %}
-                <img src="{{ imagen.imagen.url }}" alt="{{ publicacion.titulo }}" width="300">
+                <img src="{{ imagen.imagen.url }}" alt="{{ publicacion.titulo }}" class="card-img-top object-fit-cover">
+              {% else %}
+                <div class="d-flex align-items-center justify-content-center text-muted bg-secondary-subtle">
+                  <i class="bi bi-image fs-1 opacity-50"></i>
+                </div>
               {% endif %}
             {% endwith %}
+          </div>
 
-            <h2>{{ publicacion.titulo }}</h2>
-            <p>{{ publicacion.descripcion|truncatewords:20 }}</p>
-            <p>{{ publicacion.get_tipo_display }}</p>
-            <p>Por {{ publicacion.autor.username }}</p>
-            <a href="{% url 'detalle_publicacion' publicacion.pk %}">Ver publicación</a>
-          </article>
-        {% endfor %}
+          {% if publicacion.get_tipo_display %}
+            <span class="position-absolute top-0 end-0 m-3 badge bg-dark bg-opacity-75 backdrop-blur rounded-pill fw-normal">
+              <i class="bi bi-tag-fill me-1 text-warning"></i>{{ publicacion.get_tipo_display }}
+            </span>
+          {% endif %}
+
+          <div class="card-body p-4 d-flex flex-column">
+            <div class="d-flex align-items-center mb-2">
+              <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 28px; height: 28px;">
+                <i class="bi bi-person small"></i>
+              </div>
+              <span class="text-muted small fw-semibold">Por {{ publicacion.autor.username }}</span>
+            </div>
+
+            <h2 class="card-title h5 fw-bold text-dark mb-2">{{ publicacion.titulo }}</h2>
+            <p class="card-text text-muted small flex-grow-1">
+              {{ publicacion.descripcion|truncatewords:20 }}
+            </p>
+          </div>
+
+          <div class="card-footer bg-white border-top-0 p-4 pt-0">
+            <a href="{% url 'detalle_publicacion' publicacion.pk %}" class="btn btn-outline-dark w-100 rounded-3 fw-semibold">
+              Ver publicación <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </div>
+
+        </article>
       </div>
-    {% else %}
-      <p>Todavía no existen publicaciones.</p>
-    {% endif %}
-  </section>
+    {% empty %}
+      <div class="col-12">
+        <div class="row justify-content-center my-4">
+          <div class="col-md-8 col-lg-6 text-center py-5">
+            <div class="card border-0 shadow-sm rounded-4 p-5 bg-light">
+              <div class="mb-3">
+                <i class="bi bi-palette2 text-muted display-3 opacity-50"></i>
+              </div>
+              <h3 class="fw-bold text-dark">Todavía no existen publicaciones</h3>
+              <p class="text-muted mb-4">Sé el primero en compartir tu talento con la comunidad.</p>
+              {% if user.is_authenticated %}
+                <div>
+                  <a href="{% url 'crear_publicacion' %}" class="btn btn-dark btn-lg px-4 rounded-3 shadow-sm fw-semibold fs-6">
+                    <i class="bi bi-plus-lg me-1"></i> Crear la primera publicación
+                  </a>
+                </div>
+              {% else %}
+                <div>
+                  <a href="{% url 'registro' %}" class="btn btn-dark btn-lg px-4 rounded-3 shadow-sm fw-semibold fs-6">
+                    <i class="bi bi-person-plus me-1"></i> Registrarme para publicar
+                  </a>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+</div>
 {% endblock %}

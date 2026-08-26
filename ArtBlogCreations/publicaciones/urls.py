@@ -1,6 +1,8 @@
 from django.urls import path
 
 from .views import (
+    ImagenDeleteView,
+    MisPublicacionesListView,
     PublicacionCreateView,
     PublicacionDeleteView,
     PublicacionDetailView,
@@ -15,9 +17,19 @@ urlpatterns = [
         name="lista_publicaciones",
     ),
     path(
+        "mis-publicaciones/",
+        MisPublicacionesListView.as_view(),
+        name="mis_publicaciones",
+    ),
+    path(
         "crear/",
         PublicacionCreateView.as_view(),
         name="crear_publicacion",
+    ),
+    path(
+        "imagenes/<int:pk>/eliminar/",
+        ImagenDeleteView.as_view(),
+        name="eliminar_imagen",
     ),
     path(
         "<int:pk>/",

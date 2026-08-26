@@ -1,88 +1,72 @@
-* {
-  box-sizing: border-box;
-}
-
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-  color: #222;
-}
-
-header {
-  background-color: #222;
-  padding: 1rem 2rem;
-}
-
-nav {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  margin-left: 1rem;
+  background-color: #f8f9fa;
 }
 
 main {
   min-height: 80vh;
 }
 
-footer {
-  background-color: #222;
-  color: white;
-  text-align: center;
-  padding: 2rem;
+.hero {
+  background-color: #ffffff;
 }
 
-.publicacion-detalle {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 2rem;
+.hero-placeholder {
+  min-height: 350px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 1rem;
+
+  background: linear-gradient(135deg, #e9ecef, #dee2e6);
+
+  color: #495057;
+
+  font-size: 2rem;
+  font-weight: 600;
 }
 
-.publicacion-header {
-  margin-bottom: 2rem;
+.hero-card {
+  max-width: 380px;
+  transform: rotate(1.5deg);
 }
 
-.publicacion-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+.gradient-bg {
+  background: linear-gradient(135deg, #1a1a2e 0%, #2b2d42 100%);
 }
 
-.publicacion-descripcion {
-  margin-bottom: 2rem;
+.gradient-bg-nav {
+  background: linear-gradient(135deg, #1a1a2e 0%, #2b2d42 100%);
 }
 
-.publicacion-imagenes {
-  margin-top: 2rem;
-}
-
-.galeria {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-
-.galeria figure {
-  margin: 0;
+.card {
+  border: none;
   overflow: hidden;
-  border-radius: 8px;
 }
 
-.galeria img {
-  display: block;
-  width: 100%;
-  height: 300px;
+.card-img-top {
   object-fit: cover;
 }
 
-.publicacion-acciones {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
+.imagen-galeria {
+  height: 280px;
+  object-fit: cover;
+}
+
+.imagen-editar,
+.imagen-detalle {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.hw-90 {
+  width: 90px;
+  height: 90px;
+}
+
+.hw-32 {
+  width: 32px;
+  height: 32px;
 }

@@ -1,4 +1,54 @@
-<footer>
-  <p>&copy; {% now "Y" %} ArtBlog Creations</p>
-  <p>Blog de arte y creatividad</p>
+<footer class="mt-auto pt-5 pb-4 text-light gradient-bg">
+  <div class="container">
+    <div class="row g-4 justify-content-between align-items-center pb-4 border-bottom border-secondary border-opacity-25">
+      
+      <!-- Marca y Eslogan -->
+      <div class="col-md-5 text-center text-md-start">
+        <a href="{% url 'inicio' %}" class="navbar-brand fw-bold d-inline-flex align-items-center gap-2 mb-2 text-white text-decoration-none fs-5">
+          <span class="bg-white text-dark rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+            <i class="bi bi-palette-fill text-dark small"></i>
+          </span>
+          <span>ArtBlog Creations</span>
+        </a>
+        <p class="text-white-50 small mb-0">
+          Una comunidad dedicada a conectar artistas, compartir obras únicas e inspirar el talento visual.
+        </p>
+      </div>
+
+      <!-- Enlaces Rápidos -->
+      <div class="col-md-4 text-center">
+        <div class="d-flex justify-content-center gap-3 text-white-50 small">
+          <a href="{% url 'inicio' %}" class="text-white-50 text-decoration-none hover-white">Inicio</a>
+          <span>•</span>
+          <a href="{% url 'lista_publicaciones' %}" class="text-white-50 text-decoration-none hover-white">Galería</a>
+          {% if user.is_authenticated %}
+            <span>•</span>
+            <a href="{% url 'mis_publicaciones' %}" class="text-white-50 text-decoration-none hover-white">Mis obras</a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Redes Sociales / Comunidad -->
+      <div class="col-md-3 text-center text-md-end">
+        <div class="d-flex justify-content-center justify-content-md-end gap-2">
+          <a href="#" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" aria-label="Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+          <a href="#" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" aria-label="Twitter/X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="#" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" aria-label="Pinterest">
+            <i class="bi bi-pinterest"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Copyright y Créditos -->
+    <div class="pt-4 text-center text-md-between d-flex flex-column flex-md-row align-items-center justify-content-between text-white-50 small gap-2">
+      <p class="mb-0">&copy; {% now "Y" %} <strong>ArtBlog Creations</strong>. Todos los derechos reservados.</p>
+      <p class="mb-0">Creado con <i class="bi bi-heart-fill text-danger mx-1"></i> para la comunidad artística.</p>
+    </div>
+  </div>
 </footer>

@@ -5,13 +5,123 @@
 {% endblock %}
 
 {% block content %}
-  <section>
-    <h1>ArtBlog Creations</h1>
-    <p>Un espacio para compartir arte, creatividad e inspiración.</p>
-    {% if user.is_authenticated %}
-      <p>Bienvenido, {{ user.username }}.</p>
+  <section class="bg-dark text-white py-5 position-relative overflow-hidden gradient-bg">
+    <div class="container py-lg-4">
+      <div class="row align-items-center py-4">
+        
+        <div class="col-lg-7">
+          <span class="badge bg-white text-dark px-3 py-2 rounded-pill fw-bold mb-3">
+            <i class="bi bi-palette me-1"></i> Comunidad artística
+          </span>
+          <h1 class="display-3 fw-bold tracking-tight mt-2">Comparte tu arte con el mundo.</h1>
+          <p class="lead text-white-50 mt-3 mb-4 pe-lg-4 fs-4">
+            ArtBlog Creations es un espacio dedicado a publicar, descubrir e inspirarte con pinturas, fotografía, ilustración y expresiones visuales.
+          </p>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'lista_publicaciones' %}" class="btn btn-light btn-lg px-4 py-2.5 rounded-3 fw-semibold shadow-sm">
+              <i class="bi bi-compass me-1"></i> Explorar galería
+            </a>
+            {% if user.is_authenticated %}
+              <a href="{% url 'crear_publicacion' %}" class="btn btn-outline-light btn-lg px-4 py-2.5 rounded-3 fw-semibold">
+                <i class="bi bi-plus-lg me-1"></i> Publicar una obra
+              </a>
+            {% else %}
+              <a href="{% url 'registro' %}" class="btn btn-outline-light btn-lg px-4 py-2.5 rounded-3 fw-semibold">
+                <i class="bi bi-person-plus me-1"></i> Crear una cuenta
+              </a>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="col-lg-5 text-center mt-5 mt-lg-0">
+          <div class="card bg-white text-dark border-0 shadow-lg rounded-4 overflow-hidden p-4 mx-auto hero-card">
+            <div class="ratio ratio-4x3 bg-light rounded-3 overflow-hidden mb-3">
+              <div class="d-flex align-items-center justify-content-center bg-dark text-white p-4">
+                <div class="text-center">
+                  <i class="bi bi-brush display-4 text-warning mb-2 d-block"></i>
+                  <span class="fw-bold fs-5">ArtBlog Creations</span>
+                </div>
+              </div>
+            </div>
+            <div class="text-start">
+              <span class="badge bg-dark rounded-pill mb-1">Comunidad Visual</span>
+              <h5 class="fw-bold mb-1">Tu portafolio digital</h5>
+              <p class="text-muted small mb-0">Conecta con creadores y apasionados del arte visual.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="container py-5 my-4">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold text-dark">Descubre nuevas obras</h2>
+      <p class="text-muted fs-5">Explora las publicaciones más recientes compartidas por nuestra comunidad.</p>
+    </div>
+
+    {% if publicaciones %}
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for publicacion in publicaciones %}
+          <div class="col">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative">
+              
+              <div class="ratio ratio-4x3 bg-light overflow-hidden">
+                {% with imagen=publicacion.imagenes.first %}
+                  {% if imagen %}
+                    <img src="{{ imagen.imagen.url }}" alt="{{ publicacion.titulo }}" class="card-img-top object-fit-cover">
+                  {% else %}
+                    <div class="d-flex align-items-center justify-content-center text-muted bg-secondary-subtle">
+                      <i class="bi bi-image fs-1 opacity-50"></i>
+                    </div>
+                  {% endif %}
+                {% endwith %}
+              </div>
+
+              {% if publicacion.get_tipo_display %}
+                <span class="position-absolute top-0 end-0 m-3 badge bg-dark bg-opacity-75 backdrop-blur rounded-pill fw-normal">
+                  {{ publicacion.get_tipo_display }}
+                </span>
+              {% endif %}
+
+              <div class="card-body p-4 d-flex flex-column">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="bi bi-person-circle text-muted me-1.5"></i>
+                  <span class="text-muted small fw-semibold">{{ publicacion.autor.username }}</span>
+                </div>
+                <h5 class="card-title fw-bold text-dark mb-2">{{ publicacion.titulo }}</h5>
+                <p class="card-text text-muted small flex-grow-1">
+                  {{ publicacion.descripcion|truncatewords:15 }}
+                </p>
+              </div>
+
+              <div class="card-footer bg-white border-top-0 p-4 pt-0">
+                <a href="{% url 'detalle_publicacion' publicacion.pk %}" class="btn btn-outline-dark w-100 rounded-3 fw-semibold">
+                  Ver obra <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+              </div>
+
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="text-center mt-5">
+        <a href="{% url 'lista_publicaciones' %}" class="btn btn-dark btn-lg px-5 py-2.5 rounded-3 fw-semibold shadow-sm">
+          Ver toda la galería <i class="bi bi-grid ms-1"></i>
+        </a>
+      </div>
     {% else %}
-      <p>Inicia sesión o regístrate para comenzar a publicar tus obras.</p>
+      <div class="text-center py-5">
+        <i class="bi bi-journal-album display-4 text-muted opacity-50"></i>
+        <p class="text-muted mt-3 fs-5">Aún no hay obras publicadas en la plataforma.</p>
+        {% if user.is_authenticated %}
+          <a href="{% url 'crear_publicacion' %}" class="btn btn-dark rounded-3 px-4 py-2 mt-2">
+            Sé el primero en publicar <i class="bi bi-plus-lg ms-1"></i>
+          </a>
+        {% endif %}
+      </div>
     {% endif %}
   </section>
 {% endblock %}

@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Mis publicaciones | ArtBlog Creations
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  
+  <!-- Encabezado de la Sección -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-3 border-bottom">
+    <div>
+      <h1 class="fw-bold text-dark mb-1">
+        <i class="bi bi-palette me-2 text-dark"></i>Mis publicaciones
+      </h1>
+      <p class="text-muted mb-0">
+        Gestión de obras publicadas por <span class="badge bg-dark text-white rounded-pill px-3 py-1 fw-semibold">{{ user.username }}</span>
+      </p>
+    </div>
+    <div class="mt-3 mt-md-0">
+      <a href="{% url 'crear_publicacion' %}" class="btn btn-dark rounded-3 px-4 py-2 shadow-sm fw-semibold">
+        <i class="bi bi-plus-lg me-1"></i> Nueva publicación
+      </a>
+    </div>
+  </div>
+
+  <!-- Galería de Publicaciones -->
+  {% if publicaciones %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      {% for publicacion in publicaciones %}
+        <div class="col">
+          <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative group-hover">
+            
+            <!-- Contenedor de Imagen -->
+            <div class="ratio ratio-4x3 bg-light overflow-hidden">
+              {% with imagen=publicacion.imagenes.first %}
+                {% if imagen %}
+                  <img src="{{ imagen.imagen.url }}" alt="{{ publicacion.titulo }}" class="card-img-top object-fit-cover">
+                {% else %}
+                  <div class="d-flex align-items-center justify-content-center text-muted bg-secondary-subtle">
+                    <i class="bi bi-image fs-1 opacity-50"></i>
+                  </div>
+                {% endif %}
+              {% endwith %}
+            </div>
+
+            <!-- Badge de Categoría/Tipo -->
+            {% if publicacion.get_tipo_display %}
+              <span class="position-absolute top-0 end-0 m-3 badge bg-dark bg-opacity-75 backdrop-blur rounded-pill fw-normal">
+                {{ publicacion.get_tipo_display }}
+              </span>
+            {% endif %}
+
+            <!-- Cuerpo de la Tarjeta -->
+            <div class="card-body d-flex flex-column p-3">
+              <h5 class="card-title fw-bold text-dark text-truncate mb-2" title="{{ publicacion.titulo }}">
+                {{ publicacion.titulo }}
+              </h5>
+              <p class="card-text text-muted small flex-grow-1">
+                {{ publicacion.descripcion|truncatewords:15 }}
+              </p>
+            </div>
+
+            <!-- Footer con Acciones -->
+            <div class="card-footer bg-white border-top-0 p-3 pt-0">
+              <div class="btn-group w-100" role="group">
+                <a href="{% url 'detalle_publicacion' publicacion.pk %}" class="btn btn-outline-dark btn-sm rounded-start-3" title="Ver obra">
+                  <i class="bi bi-eye"></i> Ver
+                </a>
+                <a href="{% url 'editar_publicacion' publicacion.pk %}" class="btn btn-outline-secondary btn-sm" title="Editar">
+                  <i class="bi bi-pencil"></i> Editar
+                </a>
+                <a href="{% url 'eliminar_publicacion' publicacion.pk %}" class="btn btn-outline-danger btn-sm rounded-end-3" title="Eliminar">
+                  <i class="bi bi-trash"></i> Eliminar
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+  <!-- Estado Vacío (Sin publicaciones) -->
+  {% else %}
+    <div class="row justify-content-center my-5">
+      <div class="col-md-8 col-lg-6 text-center py-5">
+        <div class="card border-0 shadow-sm rounded-4 p-5 bg-light">
+          <div class="mb-3">
+            <i class="bi bi-journal-album text-muted display-3 opacity-50"></i>
+          </div>
+          <h3 class="fw-bold text-dark">Aún no tienes publicaciones</h3>
+          <p class="text-muted mb-4">Empieza a compartir tu arte con la comunidad creando tu primera publicación.</p>
+          <div>
+            <a href="{% url 'crear_publicacion' %}" class="btn btn-dark btn-lg px-4 rounded-3 shadow-sm fw-semibold fs-6">
+              <i class="bi bi-plus-lg me-1"></i> Crear mi primera publicación
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}
